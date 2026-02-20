@@ -9,9 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -30,13 +28,12 @@ public class CoursesPage extends AbsBasePage<CoursesPage> {
   }
 
   public void assertDirection(StringBuilder name, boolean isChecked) {
-    waitForElementStaleness(driver.findElement(By.xpath("//label/text()[.='" + name + "']/preceding::input")));
-    List<WebElement> elements = driver.findElements(By.xpath("//label/text()[.='" + name + "']/preceding::input"));
+    waitForElementStaleness(justElement(By.xpath("//label/text()[.='" + name + "']/preceding::input")));
+    List<WebElement> elements = justElements(By.xpath("//label/text()[.='" + name + "']/preceding::input"));
     Assertions.assertEquals(isChecked, elements.getLast().isSelected());
   }
 
   public KursPage getCourse(String name) {
-    //if (waitForElementPresent(courseSelector)) {
     if (waitForElementStaleness(getPresentElement(courseSelector))) {
       try {
         WebElement element = getPresentElements(courseSelector).stream()
@@ -62,7 +59,6 @@ public class CoursesPage extends AbsBasePage<CoursesPage> {
 
   public CoursesPage getMinMaxCourse(String end) {
     WebElement element;
-    //if (waitForElementPresent(courseSelector)) {
     if (waitForElementStaleness(getPresentElement(courseSelector))) {
       try {
         if (end.trim().equalsIgnoreCase("min")) {

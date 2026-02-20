@@ -12,7 +12,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
@@ -72,7 +71,6 @@ public class MainPage extends AbsBasePage<MainPage> {
   }
 
   public void clickOnCookieMessage() {
-    //if (waitForCondition(ExpectedConditions.visibilityOfElementLocated(notificationButton))) {
     if (isVisible(getPresentElement(notificationButton))) {
       unhide(driver, getElement(notificationButton));
       clickElement(notificationButton);

@@ -26,6 +26,10 @@ public abstract class AbsCommon {
     return driver.findElement(locator);
   }
 
+  protected List<WebElement> justElements(By locator) {
+    return driver.findElements(locator);
+  }
+
   protected WebElement getElement(By locator) {
     return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
   }
