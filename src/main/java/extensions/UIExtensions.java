@@ -14,7 +14,7 @@ public class UIExtensions implements BeforeEachCallback, AfterEachCallback {
   private WebDriver driver;
   protected String mode = "--start-maximized";
   protected String browser = System.getProperty("browser").toLowerCase().trim();
-  public static WebDriverManager webDriverManager;
+  //public static WebDriverManager webDriverManager;
 
   @Override
   public void beforeEach(ExtensionContext context) {
@@ -32,9 +32,9 @@ public class UIExtensions implements BeforeEachCallback, AfterEachCallback {
     }
   }
 
-  public void quit(WebDriver driver) {
+  /*public void quit(WebDriver driver) {
     WebDriver original = ((Decorated<WebDriver>) driver).getOriginal();
     webDriverManager.quit(original);
-  }
+  }*/
 
 }

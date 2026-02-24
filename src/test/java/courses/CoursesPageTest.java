@@ -24,7 +24,7 @@ public class CoursesPageTest {
   @DisplayName("Сценарий 1")
   public void getCorrectCourse() {
     //Здесь можно изменить выбранный курс обучения
-    String currentCourse = "Аналитик данных";
+    String currentCourse = "Python Developer";
     mainPage.open()
         .start()
         .openCoursesPageByClick()

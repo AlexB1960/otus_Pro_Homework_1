@@ -29,10 +29,12 @@ public class CoursesPage extends AbsBasePage<CoursesPage> {
 
   public void assertDirection(StringBuilder name, boolean isChecked) {
     waitForElementStaleness(justElement(By.xpath("//label/text()[.='" + name + "']/preceding::input")));
+    //Выбираем в elements все чекбоксы начиная сверху и до чекбокса у name включительно. Чекбокс у name - последний !!!
     List<WebElement> elements = justElements(By.xpath("//label/text()[.='" + name + "']/preceding::input"));
     Assertions.assertEquals(isChecked, elements.getLast().isSelected());
   }
 
+  //Поиск и клик на карточке указанного в name курса
   public KursPage getCourse(String name) {
     if (waitForElementStaleness(getPresentElement(courseSelector))) {
       try {
@@ -59,6 +61,7 @@ public class CoursesPage extends AbsBasePage<CoursesPage> {
 
   public CoursesPage getMinMaxCourse(String end) {
     WebElement element;
+    //Выбираем в element соответствующую карточку (Min или Max)
     if (waitForElementStaleness(getPresentElement(courseSelector))) {
       try {
         if (end.trim().equalsIgnoreCase("min")) {
@@ -79,13 +82,15 @@ public class CoursesPage extends AbsBasePage<CoursesPage> {
         Document doc = Jsoup.connect(courseHref).get();
         Elements links = doc.select("div[class='sc-3cb1l3-3 jeNzke'] p");
 
-        //Сравниваем даты снаружи и внутри карточки
+        //Сравниваем даты внутри страницы карточки и на карточке
         Assertions.assertEquals(links.getFirst().text(), getDateFromCard(element)
             .substring(0, getDateFromCard(element).indexOf(',')));
 
-        //Сравниваем названия курса снаружи и внутри карточки
+        //Берем в links название курса Внутри страницы карточки
         links = doc.select("div h1");
-        Assertions.assertEquals(links.text(), getNameFromCard(element));
+
+        //Сравниваем названия курса внутри страницы карточки и на карточке
+        Assertions.assertEquals(links.getFirst().text(), getNameFromCard(element));
 
         return this;
       } catch (NoSuchElementException | IOException e) {
