@@ -6,7 +6,6 @@ import pages.OnlinePage;
 import scoped.GuiceScoped;
 
 public class OnlinePageSteps {
-
   @Inject
   OnlinePage onlinePage;
 

@@ -5,11 +5,9 @@ import io.cucumber.java.ru.Если;
 import io.cucumber.java.ru.Тогда;
 import pages.CoursesPage;
 import scoped.GuiceScoped;
-
 import java.time.LocalDate;
 
 public class CoursePageSteps {
-
   @Inject
   private CoursesPage coursesPage;
 
