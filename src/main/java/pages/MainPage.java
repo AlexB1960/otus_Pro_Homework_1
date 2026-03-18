@@ -11,6 +11,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import scoped.GuiceScoped;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
