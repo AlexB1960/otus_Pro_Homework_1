@@ -3,7 +3,6 @@ package factory.settings;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.remote.AbstractDriverOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class EdgeDriverSettings implements  ISettings {
 

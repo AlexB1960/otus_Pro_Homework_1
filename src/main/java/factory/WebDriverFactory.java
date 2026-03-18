@@ -16,11 +16,9 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.events.EventFiringDecorator;
 
 public class WebDriverFactory {
-  //private String browser = System.getProperty("browser").trim().toLowerCase();
   WebDriver driver;
 
   public WebDriver create(String browser, String mode) {
-
     switch(browser) {
       case "chrome": {
         ISettings set = new ChromeDriverSettings();

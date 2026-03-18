@@ -1,16 +1,18 @@
 package components;
 
 import annotations.Component;
+import com.google.inject.Inject;
 import common.AbsCommon;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import scoped.GuiceScoped;
 
 public abstract class AbsComponent extends AbsCommon {
 
-  public AbsComponent(WebDriver driver) {
-    super(driver);
+  @Inject
+  public AbsComponent(GuiceScoped guiceScoped) {
+    super(guiceScoped);
   }
 
   {

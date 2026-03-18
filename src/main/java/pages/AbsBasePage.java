@@ -1,19 +1,21 @@
 package pages;
 
 import annotations.Path;
+import com.google.inject.Inject;
 import common.AbsCommon;
 import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import scoped.GuiceScoped;
 
 public abstract class AbsBasePage<T> extends AbsCommon {
   private String baseURL = System.getProperty("base.url");
   @FindBy(css = "h1") //tagName
   private WebElement header;
 
-  public AbsBasePage(WebDriver driver) {
-    super(driver);
+  @Inject
+  public AbsBasePage(GuiceScoped guiceScoped) {
+    super(guiceScoped);
   }
 
   private String getPath() {

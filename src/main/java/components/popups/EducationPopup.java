@@ -1,12 +1,12 @@
 package components.popups;
 
+import com.google.inject.Inject;
 import common.AbsCommon;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import pages.CoursesPage;
+import scoped.GuiceScoped;
 
 public class EducationPopup extends AbsCommon implements IPopup<EducationPopup> {
   @FindBy(xpath = "//p[text()='Направления']")
@@ -15,36 +15,53 @@ public class EducationPopup extends AbsCommon implements IPopup<EducationPopup> 
   @FindBy(xpath = "//span[@title='Обучение']")
   private WebElement educationMenuButton;
 
-  public EducationPopup(WebDriver driver) {
-    super(driver);
+  @Inject
+  public EducationPopup(GuiceScoped guiceScoped) {
+    super(guiceScoped);
 
     //Бага - ???
     //popupShouldNotBeVisible();
   }
 
   @Override
-  public EducationPopup popupShouldNotBeVisible() {
+  public void popupShouldNotBeVisible() {
     if (waitForCondition(ExpectedConditions.invisibilityOf(directionsElement))) {
-      return this;
+      //return this;
+    } else {
+      System.out.println("Меню Образование - открыто без вызова");
+      throw new RuntimeException();
     }
-    System.out.println("Меню Образование - открыто без вызова");
-    throw new RuntimeException();
   }
 
   @Override
-  public EducationPopup popupShouldBeVisible() {
+  public void popupShouldBeVisible() {
     if (isVisible(directionsElement)) {
-      return this;
+      //return this;
+    } else {
+      System.out.println("Меню Образование - не было открыто при вызове");
+      throw new RuntimeException();
     }
-    System.out.println("Меню Образование - не было открыто при вызове");
-    throw new RuntimeException();
   }
 
   //клик по выбранному направлению direction во всплывающем меню
-  public CoursesPage clickOnDirection(StringBuilder direction) {
-    directionsElement.findElement(By.xpath(String.format("//a[text()='%s']", direction))).click();
+  public void clickOnDirection(StringBuilder direction) {
+    directionsElement.findElement(By.xpath(String
+        .format("//a[text()='%s']", direction))).click();
+    //return new CoursesPage(driver);
+  }
 
-    return new CoursesPage(driver);
+  //клик по выбранному направлению direction=Подготовительные курсы во всплывающем меню
+  public void clickOnStringDirection(String direction) {
+    directionsElement.findElement(By.xpath(String
+        .format("//a[text()='%s']", direction))).click();
+    //return new CoursesPage(driver);
+  }
+
+  //мышкой наводим на пункт меню Обучение
+  public void moveToEducationItem() {
+    waitForElementStaleness(educationMenuButton);
+    actions.moveToElement(educationMenuButton).build().perform();
+    //return this;
   }
 
 }

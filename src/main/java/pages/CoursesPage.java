@@ -1,15 +1,16 @@
 package pages;
 
 import annotations.Path;
+import com.google.inject.Inject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import scoped.GuiceScoped;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -23,10 +24,12 @@ public class CoursesPage extends AbsBasePage<CoursesPage> {
 
   private final By courseSelector = By.cssSelector("a:is([class^='sc-18']>[href^='/lessons/'])");
 
-  public CoursesPage(WebDriver driver) {
-    super(driver);
+  @Inject
+  public CoursesPage(GuiceScoped guiceScoped) {
+    super(guiceScoped);
   }
 
+  //Проверка выбора чекбокса указанного в name названия направления курсов
   public void assertDirection(StringBuilder name, boolean isChecked) {
     waitForElementStaleness(justElement(By.xpath("//label/text()[.='" + name + "']/preceding::input")));
     //Выбираем в elements все чекбоксы начиная сверху и до чекбокса у name включительно. Чекбокс у name - последний !!!
@@ -35,7 +38,7 @@ public class CoursesPage extends AbsBasePage<CoursesPage> {
   }
 
   //Поиск и клик на карточке указанного в name курса
-  public KursPage getCourse(String name) {
+  public void getCourse(String name) {
     if (waitForElementStaleness(getPresentElement(courseSelector))) {
       try {
         WebElement element = getPresentElements(courseSelector).stream()
@@ -47,8 +50,7 @@ public class CoursesPage extends AbsBasePage<CoursesPage> {
         js.executeScript("document.querySelector('[href=\"" + courseHref + "\"]').scrollIntoView();");
         unhide(driver, element);
         element.click();
-
-        return new KursPage(driver);
+        //return new KursPage(driver);
       } catch (NoSuchElementException e) {
         System.out.println("Не обнаружен курс с названием - " + name);
         throw new RuntimeException();
@@ -59,7 +61,8 @@ public class CoursesPage extends AbsBasePage<CoursesPage> {
     }
   }
 
-  public CoursesPage getMinMaxCourse(String end) {
+  //Поиск и проверка самого раннего или самого позднего курса на странице
+  public void getMinMaxCourse(String end) {
     WebElement element;
     //Выбираем в element соответствующую карточку (Min или Max)
     if (waitForElementStaleness(getPresentElement(courseSelector))) {
@@ -92,9 +95,32 @@ public class CoursesPage extends AbsBasePage<CoursesPage> {
         //Сравниваем названия курса внутри страницы карточки и на карточке
         Assertions.assertEquals(links.getFirst().text(), getNameFromCard(element));
 
-        return this;
+        //return this;
       } catch (NoSuchElementException | IOException e) {
         System.out.println("Ошибка выбора " + end +" даты курсов");
+        throw new RuntimeException();
+      }
+    } else {
+      System.out.println("Ошибка ожидания локатора");
+      throw new RuntimeException();
+    }
+  }
+
+  //Поиск вывод в консоль списка курсов, начиная с указанной в startDate даты
+  public void getCoursesFromDate(LocalDate startDate) {
+    if (waitForElementStaleness(getPresentElement(courseSelector))) { //.isDisplayed()
+      try {
+        List<WebElement> elements = getPresentElements(courseSelector).stream()
+            .filter(course -> getElementDate(course)
+                .isAfter(startDate.minusDays(1))).toList();
+        System.out.println("Курсы, начиная с даты: " + startDate);
+        System.out.println("---------------------------------");
+        for (WebElement el : elements) {
+          System.out.println(el.getText());
+          System.out.println("---------------------------------");
+        }
+      } catch (NoSuchElementException e) {
+        System.out.println("Не обнаружены курсы с датой после - " + startDate);
         throw new RuntimeException();
       }
     } else {

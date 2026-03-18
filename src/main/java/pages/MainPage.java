@@ -1,17 +1,16 @@
 package pages;
 
 import annotations.Path;
-import components.BlockMainMenu;
-import components.popups.EducationPopup;
+import com.google.inject.Inject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import scoped.GuiceScoped;
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
@@ -29,17 +28,18 @@ public class MainPage extends AbsBasePage<MainPage> {
   @FindBy(xpath = "//p[text()='Направления']")
   private WebElement directionsElement;
 
-  public MainPage(WebDriver driver) {
-    super(driver);
+  @Inject
+  public MainPage(GuiceScoped guiceScoped) {
+    super(guiceScoped);
   }
 
-  public MainPage start() {
+  public void start() {
     headerShouldBeSameAs();
     clickOnCookieMessage();
-    return this;
+    //return this;
   }
 
-  public CoursesPage openCoursesPageByClick() {
+  public void openCoursesPageByClick() {
     //прокручиваем до кнопки Все курсы
     JavascriptExecutor js = ((JavascriptExecutor) driver);
     js.executeScript("document.querySelector('[href=\""
@@ -47,10 +47,10 @@ public class MainPage extends AbsBasePage<MainPage> {
     unhide(driver, buttonCourses);
 
     buttonCourses.click();
-    return new CoursesPage(driver);
+    //return new CoursesPage(driver);
   }
 
-  public BlockMainMenu getRandomDirection(StringBuilder direction) {
+  public void getRandomDirection(StringBuilder direction) {
     //считываем названия направлений всплывающего меню в directionNames
     Document doc = null;
     try {
@@ -64,10 +64,11 @@ public class MainPage extends AbsBasePage<MainPage> {
 
     //выбираем случайное направление
     Random rand = new Random();
-    String randomDirection = directionNames.get(rand.nextInt(directionNames.size() - 1)).text();
-    direction.append(randomDirection.substring(0, randomDirection.indexOf('(')).trim());
-
-    return new BlockMainMenu(driver);
+    String randomDirection = directionNames
+        .get(rand.nextInt(directionNames.size() - 1)).text();
+    direction.append(randomDirection.substring(0, randomDirection
+        .indexOf('(')).trim());
+    //return new BlockMainMenu(driver);
   }
 
   public void clickOnCookieMessage() {

@@ -1,11 +1,13 @@
 package common;
 
+import com.google.inject.Inject;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import scoped.GuiceScoped;
 import java.time.Duration;
 import java.util.List;
 
@@ -14,8 +16,9 @@ public abstract class AbsCommon {
   protected Actions actions;
   protected WebDriverWait wait;
 
-  public AbsCommon(WebDriver driver) {
-    this.driver = driver;
+  @Inject
+  public AbsCommon(GuiceScoped guiceScoped) {
+    this.driver = guiceScoped.driver;
     this.actions = new Actions(driver);
     this.wait = new WebDriverWait(driver, Duration.ofSeconds(17));
 
