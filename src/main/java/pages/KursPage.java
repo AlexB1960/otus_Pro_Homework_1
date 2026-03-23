@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
 import scoped.GuiceScoped;
 
-@Path("/lessons/data-engineer/")
+@Path("/lessons/network-engineer-specialization/")
 public class KursPage extends AbsBasePage<KursPage> {
   private final By courseNameSelector = By.cssSelector("div h1");
 
