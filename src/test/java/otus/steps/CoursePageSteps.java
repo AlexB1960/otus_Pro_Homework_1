@@ -22,12 +22,12 @@ public class CoursePageSteps {
 
   @Тогда("Находим и проверяем у самого раннего курса его название и дату")
   public void checkMinCourse() {
-    coursesPage.getMinMaxCourse("Min");
+    coursesPage.getMinMaxDateCourse("Min");
   }
 
   @Тогда("Находим и проверяем у самого позднего курса его название и дату")
   public void checkMaxCourse() {
-    coursesPage.getMinMaxCourse("Max");
+    coursesPage.getMinMaxDateCourse("Max");
   }
 
   @Тогда("Проверяем выбор чекбокса случайно выбранного направления курсов")

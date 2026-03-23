@@ -62,7 +62,7 @@ public class CoursesPage extends AbsBasePage<CoursesPage> {
   }
 
   //Поиск и проверка самого раннего или самого позднего курса на странице
-  public void getMinMaxCourse(String end) {
+  public void getMinMaxDateCourse(String end) {
     WebElement element;
     //Выбираем в element соответствующую карточку (Min или Max)
     if (waitForElementStaleness(getPresentElement(courseSelector))) {
