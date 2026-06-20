@@ -36,7 +36,7 @@ public class CoursesPage extends AbsBasePage<CoursesPage> {
 
   //Поиск и клик на карточке указанного в name курса
   public KursPage getCourse(String name) {
-    if (waitForElementStaleness(getPresentElement(courseSelector))) {
+    if (waitForElementPresent(courseSelector)) {  // (waitForElementStaleness(getPresentElement(courseSelector)))
       try {
         WebElement element = getPresentElements(courseSelector).stream()
             .filter(course -> course.getText().contains(name + '\n'))
@@ -62,7 +62,7 @@ public class CoursesPage extends AbsBasePage<CoursesPage> {
   public CoursesPage getMinMaxCourse(String end) {
     WebElement element;
     //Выбираем в element соответствующую карточку (Min или Max)
-    if (waitForElementStaleness(getPresentElement(courseSelector))) {
+    if (waitForElementPresent(courseSelector)) { // (waitForElementStaleness(getPresentElement(courseSelector)))
       try {
         if (end.trim().equalsIgnoreCase("min")) {
           element = getPresentElements(courseSelector).stream()
